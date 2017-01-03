@@ -1,4 +1,4 @@
-# MACS 40200: Structural Estimation #
+# MACS 40200: Structural Estimation (Winter 2017) #
 
 |  | [Dr. Richard Evans](https://sites.google.com/site/rickecon/) |
 |--------------|--------------------------------------------------------------|
