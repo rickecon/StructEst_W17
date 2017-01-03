@@ -92,10 +92,10 @@ Final Exam   |    20  |   25.0% |
 | Feb. 23 | Th | Nonlinear Estimation Project      |         | PS6 |
 | Feb. 28 |  T |                                   |         |     |
 | Mar.  2 | Th |                                   |         |     |
-| Mar.  7 |  T | Review, Advances in structural    |         | Project |
+| Mar.  7 |  T | Review, Advances in structural    |     | Project |
 |         |    | estimation                        |         |     |
 |         |    | *Exam preparation (reading) days, Mar. 9-10* |  | |
-| **Mar. 16** | **Th** | **Final Exam (comprehensive)** |      |   |
+| **Mar. 16** | **Th** | **Final Exam (comprehensive)** |  | Final |
 |         |     | **10:30a.m.-12:30p.m. in Saieh 247** |     |     |
 
 
