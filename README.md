@@ -71,11 +71,10 @@ Final Exam   |    20  |   25.0% |
 
 ## Daily Course Schedule ##
 
-|  Date   | Day|        Topic                | Readings | Homework |
+|  Date   | Day|            Topic            | Readings | Homework |
 |---------|----|-------------------------------------|-------|-----|
 | Jan.  3 |  T | Introduction                        |       |     |
-| Jan.  5 | Th | Structural vs. reduced form         | K2010 | PS1 |
-|         |    | discussion                          | R2010 |     |
+| Jan.  5 | Th | Structural vs. reduced form disc.   | K2010 | PS1 |
 | Jan. 10 |  T | Maximum likelihood estimation (ML)  | Notes |     |
 | Jan. 12 | Th |                                     |       |     |
 | Jan. 17 |  T |                                     |       | PS2 |
@@ -92,8 +91,7 @@ Final Exam   |    20  |   25.0% |
 | Feb. 23 | Th | Nonlinear Estimation Project      |         | PS6 |
 | Feb. 28 |  T |                                   |         |     |
 | Mar.  2 | Th |                                   |         |     |
-| Mar.  7 |  T | Review, Advances in structural    |     | Project |
-|         |    | estimation                        |         |     |
+| Mar.  7 |  T | Review, Advances in structural est. |   | Project |
 |         |    | *Exam preparation (reading) days, Mar. 9-10* |  | |
 | **Mar. 16** | **Th** | **Final Exam (comprehensive)** |  | Final |
 |         |     | **10:30a.m.-12:30p.m. in Saieh 247** |     |     |
