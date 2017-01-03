@@ -75,6 +75,7 @@ Final Exam   |    20  |   25.0% |
 |---------|----|-------------------------------------|-------|-----|
 | Jan.  3 |  T | Introduction                        |       |     |
 | Jan.  5 | Th | Structural vs. reduced form disc.   | K2010 | PS1 |
+|         |    |                                     | R2010 |     |
 | Jan. 10 |  T | Maximum likelihood estimation (ML)  | Notes |     |
 | Jan. 12 | Th |                                     |       |     |
 | Jan. 17 |  T |                                     |       | PS2 |
@@ -88,6 +89,7 @@ Final Exam   |    20  |   25.0% |
 | Feb. 14 |  T |                                   | S2008   |     |
 | Feb. 16 | Th |                                   | DRM2004, |    |
 | Feb. 21 |  T | SMM papers                        | Chap. 9.6 |   |
+|         |    |                                   | ASV2013 |     |
 | Feb. 23 | Th | Nonlinear Estimation Project      |         | PS6 |
 | Feb. 28 |  T |                                   |         |     |
 | Mar.  2 | Th |                                   |         |     |
@@ -99,6 +101,7 @@ Final Exam   |    20  |   25.0% |
 
 ## References ##
 
+* Altonji, Joseph G., Anthony A. Smith, Jr., and Ivan Vidangos, "Modeling Earnings Dynamics," *Econometrica*, 84:4, pp. 1395-1454 (July 2013)
 * Davidson, Russell and James G. MacKinnon, "Section 9.6: The Method of Simulated Moments," *Econometric Theory and Methods*, Oxford University Press, (2004).
 * Fuhrer, Jeffrey C. and George R. Moore, and Scott D. Schuh, "Estimating the Linear-quadratic Inventory Model: Maximum Likelihood versus Generalized Method of Moments," *Journal of Monetary Economics*, 35:1, pp. 115-157 (Feb. 1995).
 * Hansen, Lars Peter, "Large Sample Properties of Generalized Method of Moments Estimators," *Econometrica*, 50:4, pp.1029-1054 (July 1982).
