@@ -26,3 +26,4 @@ dist/*
 *.sublime*
 .DS_Store
 *.dta
+*.ipynb_checkpoints*
