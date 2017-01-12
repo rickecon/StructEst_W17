@@ -7,6 +7,5 @@ def gamma_pdf(x,alpha,beta):
 def ggamma_pdf(x,alpha,beta,m):
 	return (m*x**(alpha-1)*np.exp(-(x/beta)**m))/(beta**alpha * spc.gamma(alpha/m))
 
-# Define log likelihood function for the generalized beta distribution
 def gbeta2_pdf(x, a, b, p, q):
     return (a*x**(a*p-1))/(b**(a*p)*spc.beta(p,q)*(1+(x/b)**a)**(p+q))
