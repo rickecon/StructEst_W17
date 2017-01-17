@@ -105,6 +105,7 @@ if clms_clean:
                                     weights = weights,\
                                     color = 'maroon')
 
+
     # create plot title and xlabel and ylabel
     plt.title('Histogram of Truncated Households Health Expenditure')
     plt.xlabel(r'Health Expenditure ($\$$)')
@@ -212,7 +213,7 @@ def crit_GA(params, args):
 
 
 # simulate points for plotting
-dist_pts = np.linspace(0, 800, 800)
+dist_pts = np.linspace(0.01, 800, 1000)
 
 # initial guess of the gama parameters
 beta_0 = np.var(clms) / np.mean(clms)
@@ -224,7 +225,10 @@ beta_init = beta_0
 params_init = np.array([alpha_init, beta_init])
 mle_args = (clms)
 GA_results = opt.minimize(crit_GA, params_init, args=(mle_args), \
-                          bounds = ((0, math.inf), (0, math.inf)))
+                          method = 'L-BFGS-B', \
+                          bounds = ((1e-10, None), (1e-10, None)), \
+                          tol = 1e-12)
+
 alpha_MLE, beta_MLE = GA_results.x
 print('GA: alpha_MLE: ', alpha_MLE)
 print('GA: beta_MLE: ', beta_MLE)
@@ -249,6 +253,7 @@ if clms_GA_MLE:
 
     # create histogram
     n, bin_cuts, patches = plt.hist(clms, bin_num, \
+                                    normed = True, \
                                     weights = weights,\
                                     color = 'maroon', \
                                     range = ([0, 800]))
@@ -257,15 +262,13 @@ if clms_GA_MLE:
     plt.plot(dist_pts, \
              dst.GA_pdf(dist_pts, alpha_MLE, beta_MLE), \
              linewidth = 3, color = 'green', \
-             label = r'GA MLE: $\alpha$ = ' + str(np.round(alpha_MLE, 2)) + \
-                     r', $\beta$ = ' + str(np.round(beta_MLE, 2)))
-
+             label = 'Gamma MLE') 
     # plt legend
     plt.legend(loc = 'upper right')
 
     # set the limits of axis
-    plt.xlim([0, 800])
-    plt.ylim([0, 0.045])
+    plt.xlim([-5, 800])
+    plt.ylim([0, 1.1*n.max()])
 
     # create plot title and xlabel and ylabel
     plt.title('Histogram of Truncated Households Health Expenditure')
@@ -383,9 +386,11 @@ m_init_GG = 1
 params_init_GG = np.array([alpha_init_GG, beta_init_GG, m_init_GG])
 mle_args_GG = (clms)
 GG_results = opt.minimize(crit_GG, params_init_GG, args=(mle_args_GG), \
-                          bounds = ((0, math.inf), \
-                                    (0, math.inf), \
-                                    (0, math.inf)))
+                          method = 'L-BFGS-B', \
+                          bounds = ((1e-10, None), (1e-10, None), \
+                                    (1e-10, None)), \
+                          tol = 1e-12)
+
 alpha_MLE_GG, beta_MLE_GG, m_MLE_GG = GG_results.x
 print('GG: alpha_MLE: ', alpha_MLE_GG)
 print('GG: beta_MLE: ', beta_MLE_GG)
@@ -413,6 +418,7 @@ if clms_GG_MLE:
     # create histogram
     n, bin_cuts, patches = plt.hist(clms, bin_num, \
                                     weights = weights,\
+                                    normed = True, \
                                     color = 'maroon', \
                                     range = ([0, 800]))
 
@@ -420,17 +426,13 @@ if clms_GG_MLE:
     plt.plot(dist_pts, \
              dst.GG_pdf(dist_pts, alpha_MLE_GG, beta_MLE_GG, m_MLE_GG), \
              linewidth = 3, color = 'blue', \
-             label = r'GG MLE: ' + \
-                     r'$\alpha$ = ' + str(np.round(alpha_MLE_GG, 2)) + \
-                     r', $\beta$ = ' + str(np.round(beta_MLE_GG, 2)) + \
-                     r'. m = ' + str(np.round(m_MLE_GG, 2)))
-
+             label = 'Generalized Gamma MLE')
     # plt legend
     plt.legend(loc = 'upper right')
 
     # set the limits of axis
-    plt.xlim([0, 800])
-    plt.ylim([0, 0.045])
+    plt.xlim([-5, 800])
+    plt.ylim([0, 1.1*n.max()])
 
     # create plot title and xlabel and ylabel
     plt.title('Histogram of Truncated Households Health Expenditure')
@@ -547,14 +549,16 @@ def crit_GB2(params, *args):
 
 # compute the MLE parameter estimation
 a_init_GB2 = m_MLE_GG
-q_init_GB2 = 10000
+q_init_GB2 = 1000.0
 b_init_GB2 = q_init_GB2**(1 / m_MLE_GG) * beta_MLE_GG
 p_init_GB2 = alpha_MLE_GG / m_MLE_GG
 params_init_GB2 = np.array([a_init_GB2, b_init_GB2, p_init_GB2, q_init_GB2])
 mle_args_GB2 = (clms)
 GB2_results = opt.minimize( crit_GB2, params_init_GB2, args=(mle_args_GB2), \
-                            bounds = ( (0, math.inf), (0, math.inf), \
-                                       (0, math.inf), (0, math.inf)) )
+                            method = 'L-BFGS-B', \
+                            bounds = ( (1e-10, None), (1e-10, None), \
+                                       (1e-10, None), (1e-10, None)), \
+                            tol = 1e-12 )
 a_MLE_GB2, b_MLE_GB2, p_MLE_GB2, q_MLE_GB2 = GB2_results.x
 print('GB2: a_MLE: ', a_MLE_GB2)
 print('GB2: b_MLE: ', b_MLE_GB2)
@@ -584,6 +588,7 @@ if clms_GB2_MLE:
     # create histogram
     n, bin_cuts, patches = plt.hist(clms, bin_num, \
                                     weights = weights,\
+                                    normed = True, \
                                     color = 'maroon', \
                                     range = ([0, 800]))
 
@@ -592,18 +597,13 @@ if clms_GB2_MLE:
              dst.GB2_pdf(dist_pts, a_MLE_GB2, b_MLE_GB2, \
                                    p_MLE_GB2, q_MLE_GB2), \
              linewidth = 3, color = 'gold', \
-             label = r'GB2 MLE: ' + \
-                     '\n a = ' +str(np.round(a_MLE_GB2, 2)) + \
-                     r', b = ' + str(np.round(b_MLE_GB2, 2)) + \
-                     ', \n p = ' + str(np.round(p_MLE_GB2, 2)) + \
-                     r', q = ' + str(np.round(q_MLE_GB2, 2)))
-
+             label = 'Generalized Beta 2 MLE') 
     # plt legend
     plt.legend(loc = 'upper right')
 
     # set the limits of axis
-    plt.xlim([0, 800])
-    plt.ylim([0, 0.045])
+    plt.xlim([-5, 800])
+    plt.ylim([0, 1.1*n.max()])
 
     # create plot title and xlabel and ylabel
     plt.title('Histogram of Truncated Households Health Expenditure')
