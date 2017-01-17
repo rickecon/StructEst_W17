@@ -1,7 +1,6 @@
 
 # coding: utf-8
 
-# In[2]:
 
 ## Structural Estimation Problem Set 2 - GB Family and MLE
 ## by Alejandro Parraguez
@@ -9,7 +8,7 @@
 import numpy as np
 
 import scipy.stats as sts
-from scipy import special
+import scipy.special as spc
 import scipy.optimize as opt
 
 import matplotlib.pyplot as plt
@@ -18,17 +17,18 @@ import pandas as pd
 from pandas import DataFrame, Series
 
 
-# In[3]:
-
 hcc = np.loadtxt('/Users/ale/Desktop/MAPSS/Winter/StructuralEstimation/PSet_2/clms.txt')
 
 
-# In[4]:
+avg = hcc.mean()
+med = np.median(hcc)
+mx = max(hcc)
+mn = min(hcc)
+std = hcc.std()
 
-hcc
+print('Mean =',avg,'Median =',med,
+      'Maximum =',mx,'Minimum =',mn,'Standard Deviation =',std)
 
-
-# In[5]:
 
 # Histogram Parameters
 
@@ -37,20 +37,21 @@ wght = (1/hcc.shape[0])*np.ones_like(hcc)
 # Histogram all data
 
 n, bin_cuts, patches = plt.hist(hcc,1000, weights = wght)
+plt.xlabel('Value of claim')
+plt.ylabel('Percent of claims')
 plt.show()
 print(n.sum())
 
-
-# In[6]:
 
 # Histogram only less than 800
 
 n, bin_cuts, patches = plt.hist(hcc,100, weights = wght,range=(0, 800))
+plt.xlabel('Value of claim')
+plt.ylabel('Percent of claims')
 plt.show()
 print(n.sum())
 
 
-# In[7]:
 
 # (b) - MLE GA
 
@@ -68,14 +69,6 @@ def alphbet(df):
 
 aGA_0,bGA_0 = alphbet(hcc)
 
-
-# In[8]:
-
-aGA_0,bGA_0
-
-
-# In[9]:
-
 # Define the Log-Likelihood Function - Gamma
 
 def log_lik_GA(xvect,alpha,beta):
@@ -83,9 +76,6 @@ def log_lik_GA(xvect,alpha,beta):
     ln_pdf_vect = np.log(pdf_vect)
     log_lik_scal = ln_pdf_vect.sum()
     return log_lik_scal
-
-
-# In[10]:
 
 # Define Criterion Function
 
@@ -97,10 +87,6 @@ def crit(prms,*args):
     
     return neg_log_lik_scal
 
-
-
-# In[11]:
-
 # Optimize 
 
 prms_vect = np.array([aGA_0,bGA_0])
@@ -108,22 +94,29 @@ mle_args = (hcc)
 bnds_2 = ((0, None), (0, None))
 estimates = opt.minimize(crit,prms_vect,args=mle_args,bounds=bnds_2)
 aGA_MLE, bGA_MLE = estimates.x
+
+lGA_0 = log_lik_GA(hcc,aGA_0,bGA_0)
+lGA_MLE = log_lik_GA(hcc,aGA_MLE,bGA_MLE)
+
+print('alpha_0=',aGA_0,'beta_0=',bGA_0)
+print('Log Likelihood with initial guess :',lGA_0)
 print('alpha_MLE=',aGA_MLE,'beta_MLE=',bGA_MLE)
+print('Log Likelihood with MLE estimates :',lGA_MLE)
 
-
-# In[12]:
+# Plot Estimated Distribution
 
 x = hcc.sort()
 plt.hist(hcc,100, weights = wght,range=(0, 800))
-plt.plot(hcc,sts.gamma.pdf(hcc,aGA_MLE,scale=bGA_MLE),linewidth=3, color='g')
+plt.plot(hcc,sts.gamma.pdf(hcc,aGA_MLE,scale=bGA_MLE),linewidth=3, 
+         color='g',label='1: alpha={}, beta={}'.format(aGA_MLE,bGA_MLE))
+plt.legend(loc='upper right',prop={'size':6})
+plt.title('Gamma Estimation', fontsize=15)
+plt.xlabel('Value of claim')
+plt.ylabel('Percent of claims')
 plt.xlim(0,800)
 plt.ylim(0,0.05)
 plt.show()
 
-log_lik_GA(hcc,aGA_MLE,bGA_MLE)
-
-
-# In[13]:
 
 # (c) - MLE Generalized Gamma
 
@@ -133,9 +126,6 @@ mGG_0 = 1
 aGG_0 = aGA_MLE
 bGG_0 = bGA_MLE
 
-
-# In[14]:
-
 # Define the Log-Likelihood Function - Generalized Gamma
 
 def log_lik_GG(xvect,alpha,beta,m):
@@ -144,23 +134,15 @@ def log_lik_GG(xvect,alpha,beta,m):
     log_lik_scal = ln_pdf_vect.sum()
     return log_lik_scal
 
-log_lik_GG(hcc,aGG_0,bGG_0,mGG_0)
-
-
-# In[15]:
-
 # Define Criterion Function - Generalized Gamma
 
 def crit_GG(prms,*args):
     alpha , beta, m = prms
     xvals = args
     log_lik_scal = log_lik_GG(xvals,alpha,beta,m)
-    neg_log_lik_scal = - log_lik_scal
+    neg_log_lik_scal = -log_lik_scal
     
     return neg_log_lik_scal
-
-
-# In[16]:
 
 # Optimize  - Generalized Gamma
 
@@ -170,78 +152,57 @@ bnds_3 = ((0, None), (0, None),(0, None))
 estimates = opt.minimize( crit_GG , GGpar_vect , args=mle_args , bounds=bnds_3)
 aGG_MLE, bGG_MLE, mGG_MLE = estimates.x
 
+aGG_MLE_r = round(aGG_MLE,2)
+bGG_MLE_r = round(bGG_MLE,2)
+mGG_MLE_r = round(mGG_MLE,3)
+
+
+lGG_0 = log_lik_GG(hcc,aGG_0,bGG_0,mGG_0)
+lGG_MLE = log_lik_GG(hcc,aGG_MLE,bGG_MLE,mGG_MLE)
+
+print('alpha_0=',aGG_0,'beta_0=',bGG_0,'m_0=',mGG_0)
+print('Log Likelihood with initial guess :',lGG_0)
+
 print('alpha_MLE=',aGG_MLE,'beta_MLE=',bGG_MLE,'m_MLE=',mGG_MLE)
+print('Log Likelihood with MLE estimates :',lGG_MLE)
 
-
-# In[17]:
+# Plot Estimated Distribution
 
 x = hcc.sort()
 plt.hist(hcc,100, weights = wght,range=(0, 800))
-plt.plot(hcc,sts.gengamma.pdf(hcc,aGG_MLE,mGG_MLE,scale=bGG_MLE),linewidth=3, color='g')
+plt.plot(hcc,sts.gengamma.pdf(hcc,aGG_MLE,mGG_MLE,scale=bGG_MLE),linewidth=3, 
+         color='g',label='1: alpha={}, beta={}, m={}'.format(aGG_MLE_r,bGG_MLE_r,mGG_MLE_r))
+plt.legend(loc='upper right',prop={'size':6})
+plt.title('Generalized Gamma Estimation', fontsize=15)
+plt.xlabel('Value of claim')
+plt.ylabel('Percent of claims')
 plt.xlim(0,800)
 plt.ylim(0,0.05)
 plt.show()
 
 
-# In[18]:
-
 # (d) - MLE Generalized Beta 2
 
 # Initial Parameters 
 
+# Running optimize with q_0 = 10000 would return the same initial guesses
+# as the MLE estimates. When using q_0 = 8000, the command finds a lower 
+# value for the criterion function. Around 10000 the criterion function
+# must be too flat. 
 
-qGB2_0 = 10000
+qGB2_0 = 8000
 bGB2_0 = (qGB2_0**(1/mGG_MLE))*bGG_MLE
 aGB2_0 = mGG_MLE
 pGB2_0 = aGG_MLE/mGG_MLE
 
-aGB2_0, bGB2_0, pGB2_0, qGB2_0
-
-
-# In[59]:
 
 # Construct GB2 distribution from Beta Prime
 
 def genbetaprime_pdf(xvect,a,b,p,q):
-    #X = (xvect/q)**p
-    #y = sts.betaprime.pdf(X, a, b)
-    nom = p * ((xvect/q)**(a*p-1)) * (1+(xvect/q)**p)**(-a-b)
-    den = q * special.beta(a,b)
+    nom = abs(a) * (xvect**(a*p-1)) 
+    den = (b**(a*p)) * spc.beta(p,q) * ((1+((xvect/b)**a))**(p+q)) 
     gb2_pdf = nom/den
     return gb2_pdf
-
-# Build GB2 distribution using rv_continuous
-
-
-from scipy.stats import rv_continuous
-
-class GB2_gen(rv_continuous):
-    def _pdf(self,x,a,b,p):
-        nom = p * ((x)**(a*p-1)) * (1+(x)**p)**(-a-b)
-        den = special.beta(a,b)
-        gb2_pdf = nom/den
-        return gb2_pdf
-
-genbetaprim = GB2_gen(name='genbetaprim')
-class_arg = (aGB2_0, bGB2_0, pGB2_0)
-y = genbetaprim.pdf(np.linspace(0,800,100),aGB2_0, bGB2_0, pGB2_0,scale=qGB2_0)
-
-
-
-# In[20]:
-
-# Plot GB2 with initial guessess for a,b,p & q
-
-test = genbetaprime_pdf(np.linspace(0,800,100),aGB2_0, bGB2_0, pGB2_0, qGB2_0)
-test_2 = sts.betaprime.pdf(np.linspace(0,800,100),aGB2_0,bGB2_0,scale=10000)
-test_3 = sts.gengamma.pdf(np.linspace(0,800,100),aGG_MLE,mGG_MLE,scale=bGG_MLE)
-
-plt.plot(np.linspace(0,800,100),test)
-#plt.plot(np.linspace(0,800,100),test_3)
-plt.show()
-
-
-# In[60]:
 
 # Define the Log-Likelihood Function - Generalized Beta 2
 
@@ -250,11 +211,6 @@ def log_lik_GB2(xvect,a,b,p,q):
     ln_pdf_vect = np.log(pdf_vect)
     log_lik_scal = ln_pdf_vect.sum()
     return log_lik_scal
-
-log_lik_GB2(hcc,aGB2_0,bGB2_0,pGB2_0,qGB2_0)
-
-
-# In[28]:
 
 # Define Criterion Function - Generalized Beta
 
@@ -266,9 +222,6 @@ def crit_GB2(prms,*args):
     
     return neg_log_lik_scal
 
-
-# In[29]:
-
 # Optimize  - Generalized Beta
 
 GB2par_vect = np.array([aGB2_0,bGB2_0,pGB2_0,qGB2_0])
@@ -277,71 +230,83 @@ bnds_4 = ((0, None), (0, None),(0, None),(0, None))
 estimates = opt.minimize( crit_GB2 , GB2par_vect , args=mle_args , bounds=bnds_4)
 aGB2_MLE,bGB2_MLE,pGB2_MLE,qGB2_MLE = estimates.x
 
+aGB2_MLE_r = round(aGB2_MLE,2)
+bGB2_MLE_r = round(bGB2_MLE,2)
+pGB2_MLE_r = round(pGB2_MLE,2)
+qGB2_MLE_r = round(qGB2_MLE,2)
+
+lGB2_0 = log_lik_GB2(hcc,aGB2_0,bGB2_0,pGB2_0,qGB2_0)
+lGB2_MLE = log_lik_GB2(hcc,aGB2_MLE,bGB2_MLE,pGB2_MLE,qGB2_MLE)
+
+print('a_0=',aGB2_0,'b_0=',bGB2_0,'p_MLE=',pGB2_0,'q_0=',8000)
+print('Log Likelihood with initial guess :',lGB2_0)
 print('a_MLE=',aGB2_MLE,'b_MLE=',bGB2_MLE,'p_MLE=',pGB2_MLE,'q_MLE=',qGB2_MLE)
+print('Log Likelihood with MLE estimates :',lGB2_MLE)
+
+# Plot Estimated Distribution
+
+x = hcc.sort()
+plt.hist(hcc,100, weights = wght,range=(0, 800))
+plt.plot(hcc,genbetaprime_pdf(hcc,aGB2_MLE,bGB2_MLE,pGB2_MLE,qGB2_MLE),linewidth=3, 
+         color='g',label='a={}, b={}, p={}, q={}'.format(aGB2_MLE_r,bGB2_MLE_r,pGB2_MLE_r,qGB2_MLE_r))
+plt.legend(loc='upper right',prop={'size':6})
+plt.title('Generalized Beta 2 Estimation', fontsize=15)
+plt.xlabel('Value of claim')
+plt.ylabel('Percent of claims')
+plt.xlim(0,800)
+plt.ylim(0,0.05)
+plt.show()
 
 
-# In[33]:
 
 # (e) - Likelihood Ratio Test
 
     # Estimates from (b) and (d)
     
 aGB_b = 1
-bGB_b = 10000*bGA_MLE
+bGB_b = 9990*bGA_MLE
 pGB_b = aGA_MLE
-qGB_b = 10000
+qGB_b = 9990
     
 h_0_b = log_lik_GB2(hcc,aGB_b,bGB_b,pGB_b,qGB_b)
-log_lik_GB2(hcc,aGB2_0,bGB2_0,pGB2_0,qGB2_0)
-    
-    
-    
+h_MLE = log_lik_GB2(hcc,aGB2_MLE,bGB2_MLE,pGB2_MLE,qGB2_MLE)
+
+LR_GA = 2*(h_MLE-h_0_b)
+pval_GA = 1 - sts.chi2.cdf(LR_GA,4)
+
+pval_GA
     
 
-
-# In[32]:
 
 # Estimates from (c) and (d)
 
-aGB_b = mGG_MLE
-bGB_b = (10000**(1/mGG_MLE))*bGG_MLE
-pGB_b = aGG_MLE
-qGB_b = 10000
+aGB_c = mGG_MLE
+bGB_c = (9990**(1/mGG_MLE))*bGG_MLE
+pGB_c = aGG_MLE
+qGB_c = 9990
+
+h_0_c = log_lik_GB2(hcc,aGB_c,bGB_c,pGB_c,qGB_c)
+LR_GG = 2*(h_MLE-h_0_c)
+pval_GG = 1 - sts.chi2.cdf(LR_GG,4)
+
+pval_GG
 
 
-# In[148]:
 
-# Plot LogLikelihood Function
+# (f) - Using the estimates
 
-import matplotlib
-from mpl_toolkits.mplot3d import Axes3D
-from matplotlib import cm
-cmap1 = matplotlib.cm.get_cmap('summer')
+import scipy.integrate as integrate
 
-alph_vals = np.linspace(0,100,50)
-beta_vals = np.linspace(0,2200,50)
+prob_GA = 1-sts.gamma.cdf(1000,aGA_MLE,scale=bGA_MLE)
 
-lnlik_vals = np.zeros((50,50))
+def integrand(x):
+    return genbetaprime_pdf(x,aGB2_MLE,bGB2_MLE,pGB2_MLE,qGB2_MLE)
 
-for a_i in range(50):
-    for b_i in range(50):
-        lnlik_vals[a_i,b_i] = -log_lik_GA(hcc,alph_vals[a_i],beta_vals[b_i])
+prob_GB2, error = integrate.quad(integrand,1000,10000)
 
-alph_mesh, beta_mesh = np.meshgrid(alph_vals, alph_vals)
-
-fig = plt.figure()
-ax = fig.gca(projection='3d')
-ax.plot_surface(beta_mesh, alph_mesh, lnlik_vals, rstride=8,
-                cstride=1, cmap=cmap1)
-ax.set_title('Log likelihood for values of alpha and beta')
-ax.set_xlabel(r'$\alpha$')
-ax.set_ylabel(r'$\beta$')
-ax.set_zlabel(r'log likelihood')
-
-plt.show()
+print('P(claim>1000|GA) = ',prob_GA,'P(claim>1000|GB2) = ',prob_GB2)
 
 
-# In[ ]:
 
 
 
