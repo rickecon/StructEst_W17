@@ -102,7 +102,7 @@ if True:
     plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 1.2*n.max())
+    plt.ylim(0, 1.1*n.max())
 
     # save the plot
     output_path_1a = os.path.join(output_dir, 'fig_1a')
@@ -122,7 +122,8 @@ the implied histogram from your estimated lognormal (LN) distribution.
 '''
 # setup for optimizaiton
 incvals0 = list(incmoms['bincenter']/1000)
-W_hat0 = np.eye(42) # weight matrix is identiy matrix
+# W_hat0 = np.eye(42) # weight matrix is identiy matrix
+W_hat0 = np.array(incmoms['percent_adj']).reshape(42,1)*np.eye(42)/121084 # weight matrix as given
 inc_gmm_args_1b = (incmoms, W_hat0, 'lognorm')
 lognorm_bounds = ((None, None), (1e-10, None))
 mu0, sig0 = np.log(69677), 1.
@@ -148,7 +149,7 @@ if True:
     plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 1.5*n.max())
+    plt.ylim(0, 1.1*lognorm_pts.max())
 
     # save the plot
     output_path_1b = os.path.join(output_dir, 'fig_1b')
@@ -194,7 +195,7 @@ if True:
     plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 1.2*n.max())
+    plt.ylim(0, 1.1*ga_pts.max())
 
     # save the plot
     output_path_1c = os.path.join(output_dir, 'fig_1c')
@@ -224,7 +225,7 @@ if True:
     plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 1.5*n.max())
+    plt.ylim(0, 1.1*lognorm_pts.max())
 
     # save the plot
     output_path_1d = os.path.join(output_dir, 'fig_1d')
@@ -279,7 +280,7 @@ if True:
     plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 2*n.max())
+    plt.ylim(0, 1.1*ga_pts2.max())
 
     # save the plot
     output_path_1e = os.path.join(output_dir, 'fig_1e')
