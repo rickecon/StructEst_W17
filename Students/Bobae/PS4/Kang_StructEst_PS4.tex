@@ -89,9 +89,9 @@
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1b.png}}}
 \end{figure}
 \par
-GMM crietron function value = 39.49333133 \par
-GMM estimate for $\mu$, with $\textbf{W} = \textbf{I}$ = -207.606163808 \par
-GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$ = 183.315001854 \par
+GMM crietron function value = 13.41130601 \par
+GMM estimate for $\mu$, with $\textbf{W} = \textbf{I}$ = 10.76295626\par
+GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$ = 0.57140024 \par
 \bigskip
 
 \item Using GMM, fit the gamma GA(x; $\alpha$, $\beta$) distribution defined in the MLE notebook to the distribution of household income data using the moments from the data file. Report your estimated values for $\hat{\alpha}$  and  $\hat{\beta}$, as well as the value of the minimized criterion function. Plot the histogram from part (a) overlayed with a line representing the implied histogram from your estimated gamma (GA) distribution.
@@ -100,9 +100,9 @@ GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$ = 183.315001854 \par
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1c.png}}}
 \end{figure}
 \par
-GMM crietron function value = 6.70630637\par
-GMM estimate for $\alpha$, with  $\textbf{W} = \textbf{I}$ = 1.99282553649 \par
-GMM estimate for $\beta$, with $\textbf{W} = \textbf{I}$ = 27.1613802317\par
+GMM crietron function value = 6.70630716\par
+GMM estimate for $\alpha$, with  $\textbf{W} = \textbf{I}$ = 1.9923952396 \par
+GMM estimate for $\beta$, with $\textbf{W} = \textbf{I}$ = 27164.5403093\par
 \bigskip
 
 \item Plot the histogram from part (a) overlayed with the line representing the implied histogram from your estimated lognormal (LN) distribution from part (b) and the line representing the implied histogram from your estimated gamma (GA) distribution from part (c). What is the most precise way to tell which distribution fits the data the best? Which estimated distribution--LN or GA--fits the data best?
@@ -111,7 +111,7 @@ GMM estimate for $\beta$, with $\textbf{W} = \textbf{I}$ = 27.1613802317\par
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1d.png}}}
 \end{figure}
 \par
-As illustrated by the plot above, the GA distribution fits the data with greater precision than the LN distribution.
+As illustrated by the plot above, the GA distribution fits the data with greater precision than the LN distribution. In addition, using the weight matrix $\textbf{W} = \textbf{I}$, we can compare the criterion function values. This comparison also suggests that the GA distribution fits the data better.
 \bigskip
 
 \item Repeat your estimation of the GA distribution from part (c), but use the two-step estimator for the optimal weighting matrix. Do your estimates for $\alpha$ and $\beta$ change much? How can you compare the goodness of fit of this estimated distribution versus the goodness of fit of the estimated distribution in part (c)?
@@ -120,11 +120,11 @@ As illustrated by the plot above, the GA distribution fits the data with greater
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1e.png}}}
 \end{figure}
 \par
-GMM crietron function value = 2.93161087e-13\par
-GMM estimate for $\alpha$, with $\hat{\textbf{W}}_{twostep}$ = 6.35057321969  \par
-GMM estimate for $\beta$, with $\hat{\textbf{W}}_{twostep}$ = 16.5643663058\par
+GMM crietron function value = 7.46064292e-09\par
+GMM estimate for $\alpha$, with $\hat{\textbf{W}}_{twostep}$ = 7.34581860994   \par
+GMM estimate for $\beta$, with $\hat{\textbf{W}}_{twostep}$ = 15758.7078051\par
 \bigskip
-The plot suggests that the first GMM estimates of $\alpha$ and $\beta$ with the weighting matrix $\textbf{W} = \textbf{I}$ better fits the distribution to the data than the second estimates of parameters with the two-step weighting matrix. 
+The GMM estimates for $\alpha$ and $\beta$ changed quite significantly. The esitmate for $\alpha$ changed from 1.99 to 7.35, and the estimate for $\beta$ from 27164.54 to 15758.71. The plot suggests that the first GMM estimates with the weighting matrix $\textbf{W} = \textbf{I}$ better fits the distribution to the data than the second estimates with the two-step weighting matrix, $\hat{\textbf{W}}_{twostep}$.
 \end {enumerate}
 \end {enumerate}
 
