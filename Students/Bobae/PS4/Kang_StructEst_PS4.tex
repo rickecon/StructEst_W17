@@ -89,9 +89,9 @@
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1b.png}}}
 \end{figure}
 \par
-GMM crietron function value = 13.41130601 \par
-GMM estimate for $\mu$, with $\textbf{W} = \textbf{I}$ = 10.76295626\par
-GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$ = 0.57140024 \par
+GMM crietron function value: 13.41130601 \par
+GMM estimate for $\mu$, with $\textbf{W} = \textbf{I}$: 10.76295626\par
+GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$: 0.57140024 \par
 \bigskip
 
 \item Using GMM, fit the gamma GA(x; $\alpha$, $\beta$) distribution defined in the MLE notebook to the distribution of household income data using the moments from the data file. Report your estimated values for $\hat{\alpha}$  and  $\hat{\beta}$, as well as the value of the minimized criterion function. Plot the histogram from part (a) overlayed with a line representing the implied histogram from your estimated gamma (GA) distribution.
@@ -100,9 +100,9 @@ GMM estimate for $\sigma$, with $\textbf{W} = \textbf{I}$ = 0.57140024 \par
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1c.png}}}
 \end{figure}
 \par
-GMM crietron function value = 6.70630716\par
-GMM estimate for $\alpha$, with  $\textbf{W} = \textbf{I}$ = 1.9923952396 \par
-GMM estimate for $\beta$, with $\textbf{W} = \textbf{I}$ = 27164.5403093\par
+GMM crietron function value: 6.70630716\par
+GMM estimate for $\alpha$, with  $\textbf{W} = \textbf{I}$: 1.9923952396 \par
+GMM estimate for $\beta$, with $\textbf{W} = \textbf{I}$: 27164.5403093\par
 \bigskip
 
 \item Plot the histogram from part (a) overlayed with the line representing the implied histogram from your estimated lognormal (LN) distribution from part (b) and the line representing the implied histogram from your estimated gamma (GA) distribution from part (c). What is the most precise way to tell which distribution fits the data the best? Which estimated distribution--LN or GA--fits the data best?
@@ -120,11 +120,11 @@ As illustrated by the plot above, the GA distribution fits the data with greater
   \fbox{\resizebox{4.0in}{3.0in}{\includegraphics{./images/fig_1e.png}}}
 \end{figure}
 \par
-GMM crietron function value = 7.46064292e-09\par
-GMM estimate for $\alpha$, with $\hat{\textbf{W}}_{twostep}$ = 7.34581860994   \par
-GMM estimate for $\beta$, with $\hat{\textbf{W}}_{twostep}$ = 15758.7078051\par
+GMM crietron function value: 7.46064292e-09\par
+GMM estimate for $\alpha$, with $\hat{\textbf{W}}_{twostep}$: 7.34581860994   \par
+GMM estimate for $\beta$, with $\hat{\textbf{W}}_{twostep}$: 15758.7078051\par
 \bigskip
-The GMM estimates for $\alpha$ and $\beta$ changed quite significantly. The esitmate for $\alpha$ changed from 1.99 to 7.35, and the estimate for $\beta$ from 27164.54 to 15758.71. The plot suggests that the first GMM estimates with the weighting matrix $\textbf{W} = \textbf{I}$ better fits the distribution to the data than the second estimates with the two-step weighting matrix, $\hat{\textbf{W}}_{twostep}$.
+The GMM estimates for $\alpha$ and $\beta$ changed significantly. With the same initial input for parameters, the esitmate for $\alpha$ changed from 1.99 to 7.35, and the estimate for $\beta$ from 27164.54 to 15758.71. The different weight matrices make it not ideal for me to simply compare the criterion function values. The plot suggests that the first GMM estimates with the weighting matrix $\textbf{W} = \textbf{I}$ better fits the distribution to the data than the second estimates with the two-step weighting matrix, $\hat{\textbf{W}}_{twostep}$. 
 \end {enumerate}
 \end {enumerate}
 

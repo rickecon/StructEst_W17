@@ -51,6 +51,7 @@ def lognorm_cdf(xvals, mu, sigma):
 
 def ga_cdf(xvals, alpha, beta):
     cdf_vals = sts.gamma.cdf(xvals, alpha, loc=0, scale=beta)
+
     return cdf_vals
 
 def inc_model_moments(data, param1, param2, distribution):
@@ -97,8 +98,8 @@ if True:
     # plot the data
     n, bins, ignored = plt.hist(incmoms['bincenter_adj'], bins=incbins, weights=incmoms['percent_adj'])
     plt.title('Distribution of household income by selected income class, 2011', fontsize = 15)
-    plt.xlabel('Household income ($1000)')
-    plt.ylabel('Households (%)')
+    plt.xlabel('Household income (in $1000)')
+    plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
     plt.ylim(0, 1.2*n.max())
@@ -143,8 +144,8 @@ if True:
     plt.plot(incvals0, lognorm_pts, linewidth=2, color='r',
       label='$\mu$ GMM_1b = {}, $\sigma$ GMM_1b = {}'.format(mu_GMM_1b, sig_GMM_1b))
     plt.title('Distribution of household income by selected income class, 2011', fontsize = 15)
-    plt.xlabel('Household income ($1000)')
-    plt.ylabel('Households (%)')
+    plt.xlabel('Household income (in $1000)')
+    plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
     plt.ylim(0, 1.5*n.max())
@@ -189,8 +190,8 @@ if True:
     plt.plot(incvals0, ga_pts, linewidth=2, color='g',
       label='alpha GMM_1c = {}, beta GMM_1c = {}'.format(alpha_GMM_1c, beta_GMM_1c))
     plt.title('Distribution of household income by selected income class, 2011', fontsize = 15)
-    plt.xlabel('Household income ($1000)')
-    plt.ylabel('Households (%)')
+    plt.xlabel('Household income (in $1000)')
+    plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
     plt.ylim(0, 1.2*n.max())
@@ -219,8 +220,8 @@ if True:
     plt.plot(incvals0, ga_pts, linewidth=2, color='g',
       label='alpha GMM_1c = {}, beta GMM_1c = {}'.format(alpha_GMM_1c, beta_GMM_1c))
     plt.title('Distribution of household income by selected income class, 2011', fontsize = 15)
-    plt.xlabel('Household income ($1000)')
-    plt.ylabel('Households (%)')
+    plt.xlabel('Household income (in $1000)')
+    plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
     plt.ylim(0, 1.5*n.max())
@@ -244,6 +245,7 @@ inc_err = inc_err_vec(incmoms, alpha_GMM_1c, beta_GMM_1c, simple=False, distribu
 VCV2 = np.dot(inc_err, inc_err.T) / np.array(incmoms['bincenter_adj']).shape[0]
 W_hat2 = lin.pinv(VCV2)  # Use the pseudo-inverse calculated by SVD because VCV2 is ill-conditioned
 inc_gmm_args_1e = (incmoms, W_hat2, 'ga')
+# params_1e = np.array([alpha_GMM_1c, beta_GMM_1c])
 
 if True:
     # optimization
@@ -261,7 +263,7 @@ if True:
     print('Criterion function value, if W = I: ', results_1c.fun[0])
     print('Criterion function value, if W = W_2step: ', results_1e.fun[0])
 
-ga_pts2 = inc_model_moments(incmoms, alpha_GMM_1e, beta_GMM_1e, 'ga')
+ga_pts2 = inc_model_moments(incmoms, alpha_GMM_1c, beta_GMM_1e, 'ga')
 ga_pts2[40], ga_pts2[41] = ga_pts2[40]/10, ga_pts2[41]/20
 if True:
     # plot the results
@@ -273,11 +275,11 @@ if True:
     plt.plot(incvals0, ga_pts2, linewidth=2, color='b', linestyle='--',
       label='alpha GMM_1e = {}, beta GMM_1e = {}'.format(alpha_GMM_1e, beta_GMM_1e))
     plt.title('Distribution of household income by selected income class, 2011', fontsize = 15)
-    plt.xlabel('Household income ($1000)')
-    plt.ylabel('Households (%)')
+    plt.xlabel('Household income (in $1000)')
+    plt.ylabel('Household proportion for each bin')
     plt.legend(loc='upper right')
     plt.xlim(0, 350)
-    plt.ylim(0, 1.2*n.max())
+    plt.ylim(0, 2*n.max())
 
     # save the plot
     output_path_1e = os.path.join(output_dir, 'fig_1e')
