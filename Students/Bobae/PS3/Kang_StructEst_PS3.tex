@@ -1,0 +1,115 @@
+\documentclass[letterpaper,12pt]{article}
+\usepackage{array}
+\usepackage{threeparttable}
+\usepackage{geometry}
+\geometry{letterpaper,tmargin=1in,bmargin=1in,lmargin=1.25in,rmargin=1.25in}
+\usepackage{fancyhdr,lastpage}
+\pagestyle{fancy}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{}
+\rfoot{\footnotesize\textsl{Page \thepage\ of \pageref{LastPage}}}
+\renewcommand\headrulewidth{0pt}
+\renewcommand\footrulewidth{0pt}
+\usepackage[format=hang,font=normalsize,labelfont=bf]{caption}
+\usepackage{listings}
+\lstset{frame=single,
+  language=Python,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{harvard}
+\usepackage{setspace}
+\usepackage{float,color}
+\usepackage[pdftex]{graphicx}
+\usepackage{hyperref}
+\hypersetup{colorlinks,linkcolor=red,urlcolor=blue}
+\theoremstyle{definition}
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{derivation}{Derivation} % Number derivations on their own
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}{Proposition} % Number propositions on their own
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+%\numberwithin{equation}{section}
+\bibliographystyle{aer}
+\newcommand\ve{\varepsilon}
+\newcommand\boldline{\arrayrulewidth{1pt}\hline}
+
+
+\begin{document}
+
+\begin{flushleft}
+  \textbf{\large{Problem Set \#3}} \\
+  MACS 40200, Dr. Evans \\
+  Bobae Kang
+\end{flushleft}
+
+\vspace{5mm}
+
+\begin{enumerate}
+\item\textbf{ MLE estimation of simple macroeconomic model.}
+\begin{enumerate}
+\item Use the data $(w_t, k_t)$ and equations (3) and (5) to estimate the four parameters $(\alpha, \rho, \mu, \sigma)$ by maximum likelihood. Report your estimates and the inverse
+hessian variance-covariance matrix of your estimates.
+\par\bigskip
+MLE estimate for $\alpha$ = 0.457477074054 \par
+MLE estimate for $\rho$ = 0.720516972669 \par
+MLE estimate for $\mu$ = 10.1865571199 \par
+MLE estimate for $\sigma$ = 0.0919962218857 \par
+Log-likelihood value = -96.7069080209\par
+VCV = [[ 1.  0.  0.  0.  0.] \par
+\hspace{12mm}   [ 0.  1.  0.  0.  0.] \par
+\hspace{12mm}   [ 0.  0.  1.  0.  0.] \par
+\hspace{12mm}   [ 0.  0.  0.  1.  0.] \par
+\hspace{12mm}   [ 0.  0.  0.  0.  1.]]
+\par\bigskip
+
+\item Now we will estimate the parameters another way. Use the data $(w_t, k_t)$ and equations (4) and (5) to estimate the four parameters $(\alpha, \rho, \mu, \sigma)$ by maximum likelihood. Report your estimates and the inverse hessian variance-covariance
+matrix of your estimates.
+\par\bigskip
+MLE estimate for $\alpha$ = 1e-10 \par
+MLE estimate for $\rho$ = 0.25074887437 \par
+MLE estimate for $\mu$ = 0.30025181993 \par
+MLE estimate for $\sigma$ = 0.096985710088 \par
+Log-likelihood value = -91.4253132108\par
+VCV = [[  1.           8.25029459  -5.62198726  -0.72803545] \par
+\hspace{12mm}   [  8.25029459  70.01646074 -44.06310322  -5.88712085] \par
+\hspace{12mm}   [ -5.62198726 -44.06310322  34.37234784   4.22175443] \par
+\hspace{12mm}   [ -0.72803545  -5.88712085   4.22175443   0.58265255]] \par
+\par\bigskip
+
+\item According to your estimates from part (a), if investment/savings in the current period is $k_t$ = 7,500,000 and the productivity shock in the previous period was $z_{t-1}$ = 10, what is the probability that the interest rate this period will be greater than $r_t$ = 1.
+\par\bigskip
+$Pr(r_t > 1 | \hat{\theta}, k_t = 7,500,000, z_{t-1} = 10) =  1.$
+\end{enumerate}
+\end{enumerate}
+
+
+\end{document}
