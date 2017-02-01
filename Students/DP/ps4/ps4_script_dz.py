@@ -391,7 +391,7 @@ def incomes_modelMoments_GA(alpha, beta):
     GA_cdf = lambda x: sts.gamma.cdf(x, alpha, 0, beta)
     model_moments = []
     # create a variable called bins
-    bins = list(range(0,205,5)) + [250,350]
+    bins = list(range(0,205,5)) + [250,350] 
 
     for index in range(len(bins)-1):
         prob = GA_cdf(bins[index + 1]) - \
@@ -482,11 +482,13 @@ def incomes_criterion_GA(params, *args):
 
 # initial guess of the lognormal parameters
 alpha_init = 3
-beta_init = 25
+beta_init = 30
 params_init_GA = np.array( [alpha_init, beta_init] )
 # define weighting matrix to be an identity matrix as required
 W_hat_GA = np.diag(incomes.percent, 0)
-gmm_args_GA = (incomes, W_hat_GA)
+# try identity matrix
+W_hat_I = np.eye(42)
+gmm_args_GA = (incomes, W_hat_I)
 # implement optimization algorithm
 results_GA = opt.minimize(incomes_criterion_GA, params_init_GA, \
                           args = (gmm_args_GA), \
@@ -674,8 +676,7 @@ dist_vals_GA2S[41] /= 20
 
 
 GMM_GA2S = True
-if GMM_GA2S:
-    
+if GMM_GA2S: 
     '''
     -------------------------------------------------------------------- 
     cur_path    = string, path name of current directory
@@ -700,7 +701,7 @@ if GMM_GA2S:
              label=r'$GA (\hat{\alpha}_{GMM}, \hat{\beta}_{GMM})$')
     # plot the Gamma 2-step
     plt.plot(dist_pts, dist_vals_GA2S, \
-             linewidth=2, color='gold', \
+             linewidth=2, color='yellow', linestyle = ':', marker = '*', \
              label=r'$GA (\hat{\alpha}^{2Step}_{GMM}, ' + 
                    r'\hat{\beta}^{2Step}_{GMM})$')
     plt.legend(loc='upper right')
