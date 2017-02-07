@@ -27,7 +27,7 @@ Advanced undergraduate or first-year graduate microeconomic theory, statistics, 
 
 The purpose of this course is to give students experience estimating parameters of structural models. We will define the respective differences, strengths, and weaknesses of structural modeling and estimation versus reduced form modeling and estimation. We will focus on structural estimation. Methods will include taking parameters from other studies (weak calibration), estimating parameters to match moments from the data (GMM, strong calibration), simulating the model to match moments from the data (SMM, indirect inference), maximum likelihood estimation of parameters, and questions of model uncertainty and robustness. We will focus on both obtaining point estimates as well as getting an estimate of the variance-covariance matrix of the point estimates.
 
-Most of the examples in the course will come from economics, but the material will be presented in a general way in order to allow students to apply the methods to estimating structural model parameters in any field. We will focus on computing solutions to estimation problems. Students can use whatever programming language they want, but I highly recommend you use Python 3.x ([Anaconda distribution](https://www.continuum.io/downloads)). I will be most helpful with code debugging and suggestions in Python. We will also study results and uses from recent papers listed in the "References" section below. The dates on which we will be covering those references are listed in the "Daily Course Outline" section below.
+Some of the examples in the course will come from economics, but the material will be presented in a general way in order to allow students to apply the methods to estimating structural model parameters in any field. We will focus on computing solutions to estimation problems. Students can use whatever programming language they want, but I highly recommend you use Python 3.x ([Anaconda distribution](https://www.continuum.io/downloads)). I will be most helpful with code debugging and suggestions in Python. We will also study results and uses from recent papers listed in the "References" section below. The dates on which we will be covering those references are listed in the "Daily Course Outline" section below.
 
 
 ## Course Objectives and Learning Outcomes ##
@@ -54,19 +54,19 @@ Most of the examples in the course will come from economics, but the material wi
 
 Grades will be based on the four categories listed below with the corresponding weights.
 
-Assignment   | Points | Percent |
--------------|--------|---------|
-Problem Sets |    50  |   62.5% |
-Project      |    10  |   12.5% |
-Final Exam   |    20  |   25.0% |
-**Total points** | **80** | **100%** |
+Assignment                   | Points |   Percent  |
+-----------------------------|--------|------------|
+Problem Sets                 |   50   |    62.5%   |
+Project initial presentation |    5   |     6.3%   |
+Project final presentation   |    5   |     6.3%   |
+Project paper                |   20   |    25.0%   |
+**Total points**             | **80** | **100.0%** |
 
-* **Homework:** I will assign 6 problem sets throughout the term, and I will drop your one lowest problem set score.
+* **Homework:** I will assign 5 problem sets throughout the term.
 	* You must write and submit your own computer code, although I encourage you to collaborate with your fellow students. I **DO NOT** want to see a bunch of copies of identical code. I **DO** want to see each of you learning how to code these problems so that you could do it on your own.
 	* Problem set solutions, both written and code portions, will be turned in via a pull request from your private [GitHub.com](https://git-scm.com/) repository which is a fork of the class master repository on my account. (You will need to set up a GitHub account if you do not already have one.)
 	* Problem sets will be due on the day listed in the Daily Course Outline section of this syllabus (see below) unless otherwise specified. Late homework will not be graded.
-* **Project:** The project will be a replication of an estimation study that I assign. It will be worth 10 point, which is equivalent to one homework assignment. But the project scor cannot be dropped.
-* **Final Exam:** The final exam will be given on Thursday, March 16, from 10:30am to 12:30pm in our classroom (Saieh 247). The final exam will be a comprehensive, in-class, real-time computational exercise. It will be easier than any of the problem sets you completed. Its purpose it to make sure that each of you can do the operations of structural estimation on your own, in contrast to your problem sets on which I encourage you to work together. The final exam is worth 20 points, which is equivalent to 2 problem sets. The final exam grade cannot be dropped.
+* **Project:** The project will either be a replication of an existing structural estimation paper or an original estimation project. I will approve each project. The final writeup of the project will be worthIt will be worth 20 points, which is equivalent to two homework assignments. The initial in-class presentation of your project proposal and your final in-class presentation of your project results will each be worth 5 points. The project write up will be due on Wednesday, March 8, the day after regular classes end (first reading day).
 
 
 ## Daily Course Schedule ##
@@ -79,33 +79,42 @@ Final Exam   |    20  |   25.0% |
 | Jan. 10 |  T | Maximum likelihood estimation (ML)  | Notes |     |
 | Jan. 12 | Th |                                     |       |     |
 | Jan. 17 |  T |                                     |       | PS2 |
-| Jan. 19 | Th |                                     |       |     |
+| Jan. 19 | Th | Compare ML and GMM                | FMS1995 |     |
 | Jan. 24 |  T | Generalized method of moments (GMM) | Notes | PS3 |
 | Jan. 26 | Th |                                     | H1982 |     |
-| Jan. 31 |  T |                                     |       | PS4 |
-| Feb.  2 | Th |                                     |       |     |
-| Feb.  7 |  T | Compare ML and GMM                | FMS1995 | PS5 |
-| Feb.  9 | Th | Simulated Method of Moments (SMM) | Notes   |     |
-| Feb. 14 |  T |                                   | S2008   |     |
-| Feb. 16 | Th |                                   | DRM2004, |    |
-| Feb. 21 |  T | SMM papers                        | Chap. 9.6 |   |
-|         |    |                                   | ASV2013 |     |
-| Feb. 23 | Th | Nonlinear Estimation Project      |         | PS6 |
-| Feb. 28 |  T |                                   |         |     |
-| Mar.  2 | Th |                                   |         |     |
-| Mar.  7 |  T | Review, Advances in structural est. |   | Project |
-|         |    | *Exam preparation (reading) days, Mar. 9-10* |  | |
-| **Mar. 16** | **Th** | **Final Exam (comprehensive)** |  | Final |
-|         |     | **10:30a.m.-12:30p.m. in Saieh 247** |     |     |
+| Jan. 31 |  T | Simulated Method of Moments (SMM)   | Notes | PS4 |
+| Feb.  2 | Th |                                    | DM2004 |     |
+| Feb.  7 |  T | Example proposal presentation       | S2008 |     |
+| Feb.  9 | Th | Workshop presentations            | ASV2013 | PS5 |
+| Feb. 14 |  T | Student proposal presentation       |       | Prop|
+| Feb. 16 | Th | Project principles                  |       |     |
+| Feb. 21 |  T |                                     |       |     |
+| Feb. 23 | Th |                                     |       |     |
+| Feb. 28 |  T |                                     |       |     |
+| Mar.  2 | Th | Student project presentation        |       | Prst|
+| Mar.  7 |  T | Student project presentation        |       | Prst|
+| Mar.  8 |  W | Student project write-up is due     |       | Proj|
 
 
 ## References ##
 
+* Adda, Jerome and Russell Cooper, *Dynamic Economics: Quantitative Methods and Applications*, MIT Press (2003)
 * Altonji, Joseph G., Anthony A. Smith, Jr., and Ivan Vidangos, "Modeling Earnings Dynamics," *Econometrica*, 84:4, pp. 1395-1454 (July 2013)
-* Davidson, Russell and James G. MacKinnon, "Section 9.6: The Method of Simulated Moments," *Econometric Theory and Methods*, Oxford University Press, (2004).
+* Brock, William A. and Leonard J. Mirman, "Optimal Economic Growth and Uncertainty: The Discounted Case," *Journal of Economic Theory*, 4:3, pp. 479-513 (June 1972)
+* Davidson, Russell and James G. MacKinnon, *Econometric Theory and Methods*, Oxford University Press (2004)
+* Duffie, Darrell and Kenneth J. Singleton, "Simulated Moment Estimation of Markov Models of Asset Prices", *Econometrica*, 61:4, pp. 929-952 (July 1993)
 * Fuhrer, Jeffrey C. and George R. Moore, and Scott D. Schuh, "Estimating the Linear-quadratic Inventory Model: Maximum Likelihood versus Generalized Method of Moments," *Journal of Monetary Economics*, 35:1, pp. 115-157 (Feb. 1995).
-* Hansen, Lars Peter, "Large Sample Properties of Generalized Method of Moments Estimators," *Econometrica*, 50:4, pp.1029-1054 (July 1982).
+* Gourieroux, Christian and Alain Monfort, *Simulation-based Econometric Methods*, Oxford University Press (1996)
+* Hansen, Lars Peter, "Large Sample Properties of Generalized Method of Moments Estimators," *Econometrica*, 50:4, pp.1029-1054 (July 1982)
+* Hansen, Lars Peter and Kenneth J. Singleton, "Generalized Instrumental Variables Estimation of Nonlinear Rational Expectations Models", *Econometrica*, 50:5, pp. 1269-1286 (September 1982)
 * Keane, Michael P., "Structural vs. Atheoretic Approaches to Econometrics," *Journal of Econometrics*, 156:1, pp. 3-20 (May 2010).
+* Laroque, G. and B. Salanie, "Simulation Based Estimation Models with Lagged Latent Variables", *Journal of Applied Econometrics*, 8:Supplement, pp. 119-133 (December 1993)
+* Lee, Bong-Soo and Beth Fisher Ingram, "Simulation Estimation of Time Series Models", *Journal of Econometrics*, 47:2-3, pp. 197-205 (February 1991)
+* McDonald, James B., "Some Generalized Functions for the Size Distribution of Income," *Econometrica* 52:3, pp. 647-665 (May 1984)
+* McDonald, James B. and Yexiao Xu, "A Generalization of the Beta Distribution with Applications," *Journal of Econometrics*, 66:1-2, pp. 133-152 (March-April 1995)
+* McDonald, James B., Jeff Sorensen, and Patrick A. Turley, "Skewness and Kurtosis Properties of Income Distribution Models," *Review of Income and Wealth*, 59:2, pp. 360-374 (June 2013)
+* McFadden, Daniel, "A Method of Simulated Moments for Estimation of Discrete Response Models without Numerical Integration," *Econometrica*, 57:5, pp. 995-1026 (September 1989)
+* Newey, Whitney K. and Kenneth D. West, "A Simple, Positive, Semi-definite, Heteroskedasticy and Autocorrelation Consistent Covariance Matrix," *Econometrica*, 55:3, pp. 703-708 (May 1987)
 * Rust, John, "Comments on: 'Structural vs. Atheoretic Approaches to Econometrics' by Michael Keane," *Journal of Econometrics*, 156:1, pp. 21-24 (May 2010).
 * Smith, Anthony A. Jr., "[Indirect Inference](http://www.econ.yale.edu/smith/palgrave7.pdf)," *New Palgrave Dictionary of Economics*, 2nd edition, (2008).
 
