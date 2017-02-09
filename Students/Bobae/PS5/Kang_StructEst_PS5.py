@@ -9,45 +9,41 @@ Preparatory steps
 # Import packages and load the data
 import numpy as np
 import pandas as pd
-from pandas import Series, DataFrame
 import scipy.stats as sts
 import scipy.optimize as opt
 
 # import data
 data = pd.read_csv('MacroSeries.txt', header = None)
-c, k, w, r = np.array(data[0]), np.array(data[1]), np.array(data[2]), np.array(data[3])
-ct, ct1 = c[:-1], c[1:]
-wt, wt1 = w[:-1], w[1:]
-kt, kt1 = k[:-1], k[1:]
-rt, rt1 = r[:-1], r[1:]
-datat = [ct, wt, kt, rt]
-datat1 = [ct1, wt1, kt1, rt1]
 
 # define necessary functions
-def moments_gmm(datat, datat1, params):
-    ct, wt, kt, rt = datat
-    ct1, wt1, kt1, rt1 = datat1
+def moments_gmm(data, params):
+    c, k, w, r = np.array(data[0]), np.array(data[1]), np.array(data[2]), np.array(data[3])
+    ct, ct1 = c[:-1], c[1:]
+    wt, wt1 = w[:-1], w[1:]
+    kt, kt1 = k[:-1], k[1:]
+    rt, rt1 = r[:-1], r[1:]
+
     alpha, beta, rho, mu = params
 
     zt = np.log(rt) - np.log(alpha) - (np.log(kt) * (alpha - 1))
     zt1 = np.log(rt1) - np.log(alpha) - (np.log(kt1) * (alpha - 1))
 
-    mom1_dat = zt1 - (rho * zt) - ((1 - rho) * mu)
-    mom2_dat = mom1_dat * zt
-    mom3_dat = (beta * alpha * np.exp(zt1) * (kt1**(alpha - 1)) * (ct / ct1)) - 1
-    mom4_dat = mom3_dat * wt
+    mom1 = zt1 - (rho * zt) - ((1 - rho) * mu)
+    mom2 = mom1 * zt
+    mom3 = (beta * alpha * np.exp(zt1) * (kt1**(alpha - 1)) * (ct / ct1)) - 1
+    mom4 = mom3 * wt
 
-    return mom1_dat.sum(), mom2_dat.sum(), mom3_dat.sum(), mom4_dat.sum()
+    return mom1.mean(), mom2.mean(), mom3.mean(), mom4.mean()
 
 def criterion_gmm(params, *args):
-    datat, datat1, W = args
-    err = np.array(moments_gmm(datat, datat1, params))
+    data, W = args
+    err = np.array(moments_gmm(data, params))
     crit_val = np.dot(np.dot(err.T, W), err)
 
     return crit_val
 
 def data_moments_smm(data):
-    ct, wt, kt, rt = data
+    ct, wt, kt, rt = np.array(data[0]), np.array(data[1]), np.array(data[2]), np.array(data[3])
     kt1 = wt + rt*kt - ct
 
     mom1_dat = ct.mean()
@@ -100,7 +96,7 @@ def criterion_smm(params, *args):
     data, eps, W = args
     moms_dat = data_moments_smm(data)
     moms_mod = model_moments_smm(eps, params)
-    err = np.array(moms_mod) - np.array(moms_dat)
+    err = (np.array(moms_mod) - np.array(moms_dat))/np.array(moms_dat)
     crit_val = np.dot(np.dot(err.T, W), err)
 
     return crit_val
@@ -111,21 +107,21 @@ def criterion_smm(params, *args):
 --------------------------------------------------------------------
 '''
 # setup for optimization
-alpha_0, beta_0, rho_0, mu_0 = .9, .9, 0., .1
+alpha_0, beta_0, rho_0, mu_0 = .9, .9, .8, .9 # converges with criterion value = 0.0010927458976064087
 params_gmm_0 = np.array([alpha_0, beta_0, rho_0, mu_0])
 W_gmm = np.eye(4) # weight matrix = I
-args_gmm_0 = (datat, datat1, W_gmm)
-bounds_gmm = ((0., 1.), (0., 1.), (-1., 1.), (0., None))
+args_gmm_0 = (data, W_gmm)
+bounds_gmm = ((1e-16, 1-1e-16), (1e-16, 1-1e-16), (-1+1e-16, 1-1e-16), (1e-16, None))
+
+# optimization
+results_1 = opt.minimize(criterion_gmm, params_gmm_0, args=(args_gmm_0),
+                            method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
+                            bounds=bounds_gmm
+                            )
+# results
+alpha_1, beta_1, rho_1, mu_1 = results_1.x
 
 def problem1():
-    # optimization
-    results_1 = opt.minimize(criterion_gmm, params_gmm_0, args=(args_gmm_0),
-                                method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
-                                bounds=bounds_gmm
-                                )
-    # results
-    alpha_1, beta_1, rho_1, mu_1 = results_1.x
-
     # report the results
     print('Answers to part 1')
     print('GMM estimation for alpha: {}'.format(alpha_1),
@@ -141,28 +137,28 @@ def problem1():
 --------------------------------------------------------------------
 '''
 # setup for optimization
-T = 100 # time points
-S = 1000 # simulations
-sig_0 = 0.015
+T = 100 # number of time points
+S = 1000 # number of simulations
+k = np.array(data[2]) # to get the k0 for simulating kt values
+sig_0 = 0.05 # converged with GMM estimates
 eps = sts.norm.rvs(loc=0, scale=sig_0, size = (T,S)) # simulated errors
-
-data_smm = [c, k, w, r]
-params_smm_0 = np.array([alpha_0, beta_0, rho_0, mu_0, sig_0])
+params_smm_0 = np.array([alpha_1, beta_1, rho_1, mu_1, sig_0]) # using GMM estimates
 W_smm = np.eye(6) # weight matrix = I
-args_smm_0 = (data_smm, eps, W_smm)
+args_smm_0 = (data, eps, W_smm)
 bounds_smm = ((.01, .99),(.01, .99),(-.99, .99),(-.5, 1.),(.001, 1.))
 
-def problem2():
-    # optimization
-    results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
-                                method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
-                                bounds=bounds_smm#, options = {'eps':1.}
-                                )
-    # results
-    alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
-    params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
-    mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data_smm))
+# optimization
+results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
+                            method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
+                            bounds=bounds_smm#, options = {'eps':1.}
+                            )
+# results
+alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
+params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
+mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data))
+mom_diff_percent = mom_diff/np.array(data_moments_smm(data)) * 100
 
+def problem2():
     # report the results
     print('\nAnswers to part 2')
     print('SMM estimation for alpha: {}'.format(alpha_2),
@@ -171,6 +167,7 @@ def problem2():
         '\nSMM estimation for mu: {}'.format(mu_2),
         '\nSMM estimation for sigma: {}'.format(sig_2))
     print('Moment differences: {}'.format(mom_diff))
+    print('Moment percent differences: {}'.format(mom_diff_percent))
     print('Criterion function value: {}'.format(results_2.fun))
     print('Optimization result 2: \n{}'.format(results_2))
 
