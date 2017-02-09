@@ -140,25 +140,23 @@ def problem1():
 T = 100 # number of time points
 S = 1000 # number of simulations
 k = np.array(data[2]) # to get the k0 for simulating kt values
-
-# sig_0 = 0.1 # converged with GMM estimates (0.040637361247820983)
-sig_0 = 0.095 # converged with GMM estimates1 (0.032007495931465783)
+sig_0 = 0.05 # converged with GMM estimates
 eps = sts.norm.rvs(loc=0, scale=sig_0, size = (T,S)) # simulated errors
 params_smm_0 = np.array([alpha_1, beta_1, rho_1, mu_1, sig_0]) # using GMM estimates
 W_smm = np.eye(6) # weight matrix = I
 args_smm_0 = (data, eps, W_smm)
 bounds_smm = ((.01, .99),(.01, .99),(-.99, .99),(-.5, 1.),(.001, 1.))
 
-# # optimization
-# results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
-#                             method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
-#                             bounds=bounds_smm#, options = {'eps':1.}
-#                             )
-# # results
-# alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
-# params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
-# mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data))
-# mom_diff_percent = mom_diff/np.array(data_moments_smm(data)) * 100
+# optimization
+results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
+                            method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
+                            bounds=bounds_smm#, options = {'eps':1.}
+                            )
+# results
+alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
+params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
+mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data))
+mom_diff_percent = mom_diff/np.array(data_moments_smm(data)) * 100
 
 def problem2():
     # report the results
@@ -180,7 +178,7 @@ Answers.
 '''
 def main():
     problem1()
-    # problem2()
+    problem2()
 
 if __name__ == '__main__':
 	main()
