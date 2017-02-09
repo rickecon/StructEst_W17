@@ -100,7 +100,7 @@ def criterion_smm(params, *args):
     data, eps, W = args
     moms_dat = data_moments_smm(data)
     moms_mod = model_moments_smm(eps, params)
-    err = np.array(moms_mod) - np.array(moms_dat)
+    err = (np.array(moms_mod) - np.array(moms_dat))/np.array(moms_dat)
     crit_val = np.dot(np.dot(err.T, W), err)
 
     return crit_val
@@ -111,21 +111,22 @@ def criterion_smm(params, *args):
 --------------------------------------------------------------------
 '''
 # setup for optimization
-alpha_0, beta_0, rho_0, mu_0 = .9, .9, 0., .1
+# alpha_0, beta_0, rho_0, mu_0 = .9, .99, .0, .9 # this guess gives criterion value = 25
+alpha_0, beta_0, rho_0, mu_0 = .9, .99, .0, .5 # this guess gives criterion value = 25
 params_gmm_0 = np.array([alpha_0, beta_0, rho_0, mu_0])
 W_gmm = np.eye(4) # weight matrix = I
 args_gmm_0 = (datat, datat1, W_gmm)
-bounds_gmm = ((0., 1.), (0., 1.), (-1., 1.), (0., None))
+bounds_gmm = ((1e-16, 1-1e-16), (1e-16, 1-1e-16), (-1+1e-16, 1-1e-16), (0+1e-16, None))
+
+# optimization
+results_1 = opt.minimize(criterion_gmm, params_gmm_0, args=(args_gmm_0),
+                            method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
+                            bounds=bounds_gmm
+                            )
+# results
+alpha_1, beta_1, rho_1, mu_1 = results_1.x
 
 def problem1():
-    # optimization
-    results_1 = opt.minimize(criterion_gmm, params_gmm_0, args=(args_gmm_0),
-                                method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
-                                bounds=bounds_gmm
-                                )
-    # results
-    alpha_1, beta_1, rho_1, mu_1 = results_1.x
-
     # report the results
     print('Answers to part 1')
     print('GMM estimation for alpha: {}'.format(alpha_1),
@@ -143,26 +144,26 @@ def problem1():
 # setup for optimization
 T = 100 # time points
 S = 1000 # simulations
-sig_0 = 0.015
+sig_0 = 0.095 # converged with GMM estimates (5.7e+15)
 eps = sts.norm.rvs(loc=0, scale=sig_0, size = (T,S)) # simulated errors
-
 data_smm = [c, k, w, r]
-params_smm_0 = np.array([alpha_0, beta_0, rho_0, mu_0, sig_0])
+params_smm_0 = np.array([alpha_1, beta_1, rho_1, mu_1, sig_0    ]) # using GMM estimates
 W_smm = np.eye(6) # weight matrix = I
 args_smm_0 = (data_smm, eps, W_smm)
 bounds_smm = ((.01, .99),(.01, .99),(-.99, .99),(-.5, 1.),(.001, 1.))
 
-def problem2():
-    # optimization
-    results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
-                                method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
-                                bounds=bounds_smm#, options = {'eps':1.}
-                                )
-    # results
-    alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
-    params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
-    mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data_smm))
+# optimization
+results_2 = opt.minimize(criterion_smm, params_smm_0, args=(args_smm_0),
+                            method='L-BFGS-B', # 'TNC', 'L-BFGS-B', 'SLSQP'
+                            bounds=bounds_smm#, options = {'eps':1.}
+                            )
+# results
+alpha_2, beta_2, rho_2, mu_2, sig_2 = results_2.x
+params_2 = np.array([alpha_2, beta_2, rho_2, mu_2, sig_2])
+mom_diff = np.array(model_moments_smm(eps, params_2)) - np.array(data_moments_smm(data_smm))
+mom_diff_percent = mom_diff/np.array(data_moments_smm(data_smm)) * 100
 
+def problem2():
     # report the results
     print('\nAnswers to part 2')
     print('SMM estimation for alpha: {}'.format(alpha_2),
@@ -171,6 +172,7 @@ def problem2():
         '\nSMM estimation for mu: {}'.format(mu_2),
         '\nSMM estimation for sigma: {}'.format(sig_2))
     print('Moment differences: {}'.format(mom_diff))
+    print('Moment percent differences: {}'.format(mom_diff_percent))
     print('Criterion function value: {}'.format(results_2.fun))
     print('Optimization result 2: \n{}'.format(results_2))
 
