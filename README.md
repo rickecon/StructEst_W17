@@ -87,10 +87,10 @@ Project paper                |   20   |    25.0%   |
 | Feb.  7 |  T | Example proposal presentation       | S2008 |     |
 | Feb.  9 | Th | Workshop presentations            | ASV2013 | PS5 |
 | Feb. 14 |  T | Student proposal presentation       |       | Prop|
-| Feb. 16 | Th | Project principles                  |       |     |
-| Feb. 21 |  T |                                     |       |     |
-| Feb. 23 | Th |                                     |       |     |
-| Feb. 28 |  T |                                     |       |     |
+| Feb. 16 | Th | Project: Data Description           |       |     |
+| Feb. 21 |  T | Project: Model Description          |       |     |
+| Feb. 23 | Th | Project: Estimation Section         |       |     |
+| Feb. 28 |  T | Project: Concl., Intro., Abstract   |       |     |
 | Mar.  2 | Th | Student project presentation        |       | Prst|
 | Mar.  7 |  T | Student project presentation        |       | Prst|
 | Mar.  8 |  W | Student project write-up is due     |       | Proj|
